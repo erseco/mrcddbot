@@ -1,0 +1,7 @@
+gpt-index
+machaao
+python-dotenv
+flask
+pyjwt==2.5.0 # https://github.com/jpadilla/pyjwt/issues/814
+# gunicorn
+PyPDF2

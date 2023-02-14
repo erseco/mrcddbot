@@ -1,0 +1,31 @@
+version: "3"
+services:
+  mrcddbot:
+    image: ghcr.io/erseco/mrcddbot:latest
+    ports:
+      - "5000:5000"
+    environment:
+      MESSENGERX_API_TOKEN: ${MESSENGERX_API_TOKEN}
+      MESSENGERX_BASE_URL: ${MESSENGERX_BASE_URL}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      NAME: ${NAME}
+      
+  https-portal:
+    image: steveltn/https-portal:1
+    depends_on:
+        - mrcddbot
+    ports:
+        - 80:80
+        - 443:443
+    restart: always
+    volumes:
+        - ./ssl_certs:/var/lib/https-portal
+    environment:
+        DOMAINS: 'mrcddbot.ernesto.es -> http://mrcddbot:5000 #production'
+
+  watchtower:
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/ubuntu/.docker/config.json:/config.json
+    command: --interval 30

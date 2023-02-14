@@ -1,0 +1,39 @@
+# Default values for machaao-api-service
+replicaCount: 1
+
+# K8s version of a load balancer comes in the port and goes to your service
+# on the target port
+service:
+  type: ClusterIP
+  port: 5000
+  targetPort: 5000
+
+# Is your service accessible outside the cluster? Probably not, otherwise
+# lets chat.
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-machaao
+    kubernetes.io/ingress.class: nginx
+  path: /
+  hosts:
+    - "exobot.machaao.com"
+  tls:
+    - secretName: wildcard-machaao-com-tls
+      hosts:
+        - '*.machaao.com'
+
+# Resource for your container. Deliberately small to start
+resources:
+  limits:
+   cpu: 900m
+   memory: 1Gi
+  requests:
+   cpu: 500m
+   memory: 512Mi
+
+
+# the docker image your pods will use.
+image:
+  repository: registry.machaao.com/exobot
+  pullPolicy: Always

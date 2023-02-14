@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: machaao-gpt-j-configmap
+data:
+  BASE_URL: "https://ganglia.machaao.com"
+  NAME: "Jeanie"
+  LIMIT: "False"
+  TEMPERATURE: "0.8"
+  TOP_K: "50"
+  MAX_LENGTH: "50"
